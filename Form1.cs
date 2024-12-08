@@ -72,7 +72,8 @@ namespace Basic_Calculator
 
         private void NumberButton_Click(object sender, EventArgs e)
         {
-
+            Button button = sender as Button;
+            txtDisplay.Text += button.Text;
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
