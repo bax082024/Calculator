@@ -69,5 +69,15 @@ namespace Basic_Calculator
                 MessageBox.Show($"Error: {ex.Message}", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void NumberButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OperationButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
