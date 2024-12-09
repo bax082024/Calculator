@@ -10,3 +10,8 @@ The calculator supports basic arithmetic operations and features a clean, user-f
 	- Multiplication(`*`)
 	- Division (`/`)
 	- Prosent (`%`)
+- Responsive and visually appealing UI with:
+	- Dynamic button layout.
+	- Higlighted function buttons for better visibility.
+- Clear button (`C`) to reset the calculation.
+- Error handling for invalid inputs (ex: division by zero).
