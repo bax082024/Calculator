@@ -54,8 +54,36 @@ namespace Basic_Calculator
             zeroButton.Click += NumberButton_Click;
             this.Controls.Add(zeroButton);
 
+            // Clear button (C)
+            Button clearButton = new Button
+            {
+                Text = "C",
+                Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                Location = new System.Drawing.Point(
+                    startX,
+                    startY + 3 * (buttonHeight + spacing)
+                ),
+                BackColor = System.Drawing.Color.Salmon // Background for clear button
+            };
+            clearButton.Click += ClearButton_Click;
+            this.Controls.Add(clearButton);
+
+            // Modulo button (%)
+            Button moduloButton = new Button
+            {
+                Text = "%",
+                Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                Location = new System.Drawing.Point(
+                    startX + 2 * (buttonWidth + spacing),
+                    startY + 3 * (buttonHeight + spacing)
+                ),
+                BackColor = System.Drawing.Color.LightBlue // Background for modulo button
+            };
+            moduloButton.Click += OperationButton_Click;
+            this.Controls.Add(moduloButton);
+
             // Operation buttons
-            string[] operations = { "+", "-", "*", "/", "%" };
+            string[] operations = { "+", "-", "*", "/" };
             for (int i = 0; i < operations.Length; i++)
             {
                 Button operationButton = new Button
@@ -72,34 +100,21 @@ namespace Basic_Calculator
                 this.Controls.Add(operationButton);
             }
 
-            // Equals button spanning the bottom
+            // Equals button spanning the entire bottom
             Button equalsButton = new Button
             {
                 Text = "=",
-                Size = new System.Drawing.Size(buttonWidth * 2 + spacing, buttonHeight),
+                Size = new System.Drawing.Size(buttonWidth * 4 + spacing * 3, buttonHeight),
                 Location = new System.Drawing.Point(
-                    startX + buttonWidth + spacing,
+                    startX,
                     startY + 4 * (buttonHeight + spacing)
                 ),
                 BackColor = System.Drawing.Color.LightGreen // Background for equals button
             };
             equalsButton.Click += EqualsButton_Click;
             this.Controls.Add(equalsButton);
-
-            // Clear button
-            Button clearButton = new Button
-            {
-                Text = "C",
-                Size = new System.Drawing.Size(buttonWidth, buttonHeight),
-                Location = new System.Drawing.Point(
-                    startX,
-                    startY + 4 * (buttonHeight + spacing)
-                ),
-                BackColor = System.Drawing.Color.Salmon // Background for clear button
-            };
-            clearButton.Click += ClearButton_Click;
-            this.Controls.Add(clearButton);
         }
+
 
 
         private void NumberButton_Click(object sender, EventArgs e)
