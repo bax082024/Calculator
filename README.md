@@ -15,3 +15,15 @@ The calculator supports basic arithmetic operations and features a clean, user-f
 	- Higlighted function buttons for better visibility.
 - Clear button (`C`) to reset the calculation.
 - Error handling for invalid inputs (ex: division by zero).
+
+---
+
+## Screenshot
+
+![Basic Calculator Screenshot](Images/Calculator.png)
+
+---
+
+## Contact
+
+Email : **bax082024@gmail.com**
