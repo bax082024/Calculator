@@ -11,14 +11,14 @@ namespace Basic_Calculator
         public Form1()
         {
             InitializeComponent();
-            CreateButtons(); // Dynamically create buttons for numbers and operations
+            CreateButtons(); 
         }
 
         private void CreateButtons()
         {
             int buttonWidth = 60, buttonHeight = 50;
-            int startX = 20, startY = 70; // Starting position for buttons
-            int spacing = 10; // Space between buttons
+            int startX = 20, startY = 70; 
+            int spacing = 10; 
 
             // Background color for the form
             this.BackColor = System.Drawing.Color.LightGray;
@@ -34,7 +34,7 @@ namespace Basic_Calculator
                         startX + ((i - 1) % 3) * (buttonWidth + spacing),
                         startY + ((i - 1) / 3) * (buttonHeight + spacing)
                     ),
-                    BackColor = System.Drawing.Color.WhiteSmoke // Background for number buttons
+                    BackColor = System.Drawing.Color.WhiteSmoke 
                 };
                 numberButton.Click += NumberButton_Click;
                 this.Controls.Add(numberButton);
@@ -63,7 +63,7 @@ namespace Basic_Calculator
                     startX,
                     startY + 3 * (buttonHeight + spacing)
                 ),
-                BackColor = System.Drawing.Color.Salmon // Background for clear button
+                BackColor = System.Drawing.Color.Salmon 
             };
             clearButton.Click += ClearButton_Click;
             this.Controls.Add(clearButton);
@@ -77,7 +77,7 @@ namespace Basic_Calculator
                     startX + 2 * (buttonWidth + spacing),
                     startY + 3 * (buttonHeight + spacing)
                 ),
-                BackColor = System.Drawing.Color.LightBlue // Background for modulo button
+                BackColor = System.Drawing.Color.LightBlue
             };
             moduloButton.Click += OperationButton_Click;
             this.Controls.Add(moduloButton);
@@ -94,7 +94,7 @@ namespace Basic_Calculator
                         startX + 3 * (buttonWidth + spacing),
                         startY + i * (buttonHeight + spacing)
                     ),
-                    BackColor = System.Drawing.Color.LightBlue // Background for operation buttons
+                    BackColor = System.Drawing.Color.LightBlue
                 };
                 operationButton.Click += OperationButton_Click;
                 this.Controls.Add(operationButton);
@@ -109,7 +109,7 @@ namespace Basic_Calculator
                     startX,
                     startY + 4 * (buttonHeight + spacing)
                 ),
-                BackColor = System.Drawing.Color.LightGreen // Background for equals button
+                BackColor = System.Drawing.Color.LightGreen
             };
             equalsButton.Click += EqualsButton_Click;
             this.Controls.Add(equalsButton);
@@ -120,7 +120,7 @@ namespace Basic_Calculator
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            txtDisplay.Text += button.Text; // Append the clicked number to the display
+            txtDisplay.Text += button.Text;
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
@@ -128,8 +128,8 @@ namespace Basic_Calculator
             Button button = sender as Button;
             if (double.TryParse(txtDisplay.Text, out _firstNumber))
             {
-                _currentOperation = button.Text; // Store the selected operation
-                txtDisplay.Clear();              // Clear the display for the next number
+                _currentOperation = button.Text;
+                txtDisplay.Clear();
             }
             else
             {
@@ -151,8 +151,8 @@ namespace Basic_Calculator
                     _ => 0
                 };
 
-                txtDisplay.Text = result.ToString(); // Display the result
-                _currentOperation = string.Empty;    // Clear the operation
+                txtDisplay.Text = result.ToString();
+                _currentOperation = string.Empty;
             }
             else
             {
@@ -162,9 +162,9 @@ namespace Basic_Calculator
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text = string.Empty;    // Clear the display
-            _firstNumber = 0;                  // Reset the first number
-            _currentOperation = string.Empty;  // Clear the current operation
+            txtDisplay.Text = string.Empty; 
+            _firstNumber = 0; 
+            _currentOperation = string.Empty;  
         }
 
         private void Form1_Load(object sender, EventArgs e)
