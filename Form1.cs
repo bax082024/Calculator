@@ -78,7 +78,26 @@ namespace Basic_Calculator
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
+            Button button = sender as Button; // Get the clicked button
+            if (double.TryParse(txtDisplay.Text, out _firstNumber)) // Parse the current display text as the first number
+            {
+                _currentOperation = button.Text; // Store the selected operation
+                txtDisplay.Clear();              // Clear the display for the next number
+            }
+            else
+            {
+                MessageBox.Show("Invalid input. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+
+        }
+
+        private void EqualsButton_Click(Object sender, EventArgs e)
+        {
+            if (double.TryParse(txtDisplay.Text, out double secondNumber))
+            {
+
+            }
         }
     }
 }
