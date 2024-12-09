@@ -1,85 +1,117 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Basic_Calculator
 {
     public partial class Form1 : Form
     {
+        private double _firstNumber = 0;
+        private string _currentOperation = string.Empty;
+
         public Form1()
         {
             InitializeComponent();
-
-            // Add items to the ComboBox
-            cmbOperation.Items.Add("+");
-            cmbOperation.Items.Add("-");
-            cmbOperation.Items.Add("*");
-            cmbOperation.Items.Add("/");
-            cmbOperation.Items.Add("%");
+            CreateButtons(); // Dynamically create buttons for numbers and operations
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void CreateButtons()
         {
+            int buttonWidth = 60, buttonHeight = 50;
+            int startX = 20, startY = 70; // Starting position for buttons
+            int spacing = 10; // Space between buttons
 
-        }
+            // Background color for the form
+            this.BackColor = System.Drawing.Color.LightGray;
 
-        private void btnCalculate_Click(object sender, EventArgs e)
-        {
-            try
+            // Number buttons (1-9)
+            for (int i = 1; i <= 9; i++)
             {
-                // Get numbers from text boxes
-                double number1 = double.Parse(txtNumber1.Text);
-                double number2 = double.Parse(txtNumber2.Text);
-
-                // Get selected operation
-                string operation = cmbOperation.SelectedItem.ToString();
-
-                // Perform calculation
-                double result;
-                switch (operation)
+                Button numberButton = new Button
                 {
-                    case "+":
-                        result = number1 + number2;
-                        break;
-                    case "-":
-                        result = number1 - number2;
-                        break;
-                    case "*":
-                        result = number1 * number2;
-                        break;
-                    case "/":
-                        if (number2 == 0) throw new DivideByZeroException();
-                        result = number1 / number2;
-                        break;
-                    default:
-                        throw new InvalidOperationException("Unknown operation");
-                }
+                    Text = i.ToString(),
+                    Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                    Location = new System.Drawing.Point(
+                        startX + ((i - 1) % 3) * (buttonWidth + spacing),
+                        startY + ((i - 1) / 3) * (buttonHeight + spacing)
+                    ),
+                    BackColor = System.Drawing.Color.WhiteSmoke // Background for number buttons
+                };
+                numberButton.Click += NumberButton_Click;
+                this.Controls.Add(numberButton);
+            }
 
-                // Display result
-                lblResult.Text = $"Result: {result}";
-            }
-            catch (Exception ex)
+            // Place '0' button
+            Button zeroButton = new Button
             {
-                MessageBox.Show($"Error: {ex.Message}", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Text = "0",
+                Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                Location = new System.Drawing.Point(
+                    startX + buttonWidth + spacing,
+                    startY + 3 * (buttonHeight + spacing)
+                ),
+                BackColor = System.Drawing.Color.WhiteSmoke
+            };
+            zeroButton.Click += NumberButton_Click;
+            this.Controls.Add(zeroButton);
+
+            // Operation buttons
+            string[] operations = { "+", "-", "*", "/", "%" };
+            for (int i = 0; i < operations.Length; i++)
+            {
+                Button operationButton = new Button
+                {
+                    Text = operations[i],
+                    Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                    Location = new System.Drawing.Point(
+                        startX + 3 * (buttonWidth + spacing),
+                        startY + i * (buttonHeight + spacing)
+                    ),
+                    BackColor = System.Drawing.Color.LightBlue // Background for operation buttons
+                };
+                operationButton.Click += OperationButton_Click;
+                this.Controls.Add(operationButton);
             }
+
+            // Equals button spanning the bottom
+            Button equalsButton = new Button
+            {
+                Text = "=",
+                Size = new System.Drawing.Size(buttonWidth * 2 + spacing, buttonHeight),
+                Location = new System.Drawing.Point(
+                    startX + buttonWidth + spacing,
+                    startY + 4 * (buttonHeight + spacing)
+                ),
+                BackColor = System.Drawing.Color.LightGreen // Background for equals button
+            };
+            equalsButton.Click += EqualsButton_Click;
+            this.Controls.Add(equalsButton);
+
+            // Clear button
+            Button clearButton = new Button
+            {
+                Text = "C",
+                Size = new System.Drawing.Size(buttonWidth, buttonHeight),
+                Location = new System.Drawing.Point(
+                    startX,
+                    startY + 4 * (buttonHeight + spacing)
+                ),
+                BackColor = System.Drawing.Color.Salmon // Background for clear button
+            };
+            clearButton.Click += ClearButton_Click;
+            this.Controls.Add(clearButton);
         }
+
 
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            txtDisplay.Text += button.Text;
+            txtDisplay.Text += button.Text; // Append the clicked number to the display
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
-            Button button = sender as Button; // Get the clicked button
-            if (double.TryParse(txtDisplay.Text, out _firstNumber)) // Parse the current display text as the first number
+            Button button = sender as Button;
+            if (double.TryParse(txtDisplay.Text, out _firstNumber))
             {
                 _currentOperation = button.Text; // Store the selected operation
                 txtDisplay.Clear();              // Clear the display for the next number
@@ -88,16 +120,41 @@ namespace Basic_Calculator
             {
                 MessageBox.Show("Invalid input. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
-        private void EqualsButton_Click(Object sender, EventArgs e)
+        private void EqualsButton_Click(object sender, EventArgs e)
         {
             if (double.TryParse(txtDisplay.Text, out double secondNumber))
             {
+                double result = _currentOperation switch
+                {
+                    "+" => _firstNumber + secondNumber,
+                    "-" => _firstNumber - secondNumber,
+                    "*" => _firstNumber * secondNumber,
+                    "/" => secondNumber != 0 ? _firstNumber / secondNumber : throw new DivideByZeroException(),
+                    "%" => _firstNumber % secondNumber,
+                    _ => 0
+                };
 
+                txtDisplay.Text = result.ToString(); // Display the result
+                _currentOperation = string.Empty;    // Clear the operation
             }
+            else
+            {
+                MessageBox.Show("Invalid input. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            txtDisplay.Text = string.Empty;    // Clear the display
+            _firstNumber = 0;                  // Reset the first number
+            _currentOperation = string.Empty;  // Clear the current operation
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
